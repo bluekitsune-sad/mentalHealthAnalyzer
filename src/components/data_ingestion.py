@@ -49,5 +49,5 @@ if __name__=="__main__":
     obj.initiate_data_ingestion()
 
 
-    # py -m src.components.data_ingestion
-    # -m means Run this as a module inside a package, not just as a script file.
+# py -m src.components.data_ingestion
+# -m means Run this as a module inside a package, not just as a script file.
