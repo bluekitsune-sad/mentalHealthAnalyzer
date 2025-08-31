@@ -6,4 +6,9 @@ seaborn
 scipy
 tensorflow
 keras
+catboost
+xgboost
+Flask
+dill
+# pickle
 -e .
