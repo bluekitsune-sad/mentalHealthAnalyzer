@@ -1,6 +1,6 @@
 import os
 import sys
-from src.exception import CustomException
+from src.exception import CustomeException
 from src.logger import logging
 import pandas as pd
 
@@ -34,7 +34,7 @@ class DataIngestion:
 
             test_set.to_csv(self.ingestion_config.test_data_path,index=False,header=True)
 
-            logging.info("Inmgestion of the data iss completed")
+            logging.info("Ingestion of the data iss completed")
 
             return(
                 self.ingestion_config.train_data_path,
@@ -42,4 +42,12 @@ class DataIngestion:
 
             )
         except Exception as e:
-            raise CustomException(e,sys)
+            raise CustomeException(e,sys)
+        
+if __name__=="__main__":
+    obj = DataIngestion()
+    obj.initiate_data_ingestion()
+
+
+    # py -m src.components.data_ingestion
+    # -m means Run this as a module inside a package, not just as a script file.
