@@ -1,11 +1,13 @@
 import os
 import sys
+from src.logger import logging
 
 import numpy as np 
 import pandas as pd
 import dill
 import pickle
-from sklearn.metrics import r2_score
+from sklearn.metrics import f1_score, confusion_matrix
+from sklearn.model_selection import GridSearchCV, StratifiedKFold
 from sklearn.model_selection import GridSearchCV
 
 from src.exception import CustomeException
@@ -30,7 +32,7 @@ def evaluate_models(X_train, y_train,X_test,y_test,models,param):
             model = list(models.values())[i]
             para=param[list(models.keys())[i]]
 
-            gs = GridSearchCV(model,para,cv=3)
+            gs = GridSearchCV(model,para,cv=StratifiedKFold(n_splits=2, shuffle=True, random_state=42))
             gs.fit(X_train,y_train)
 
             model.set_params(**gs.best_params_)
@@ -39,14 +41,17 @@ def evaluate_models(X_train, y_train,X_test,y_test,models,param):
             #model.fit(X_train, y_train)  # Train model
 
             y_train_pred = model.predict(X_train)
-
             y_test_pred = model.predict(X_test)
 
-            train_model_score = r2_score(y_train, y_train_pred)
+            # Confusion-matrix-derived metrics: use F1 as scalar selection metric
+            f1 = f1_score(y_test, y_test_pred)
+            # Optionally compute confusion matrix for future use/logging if needed
+            cm = confusion_matrix(y_test, y_test_pred)
 
-            test_model_score = r2_score(y_test, y_test_pred)
+            logging.info(f"F1 score for {list(models.keys())[i]}: {f1}")
+            logging.info(f"Confusion matrix for {list(models.keys())[i]}: {cm}")
 
-            report[list(models.keys())[i]] = test_model_score
+            report[list(models.keys())[i]] = f1
 
         return report
 

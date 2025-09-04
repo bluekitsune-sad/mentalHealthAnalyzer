@@ -1,7 +1,8 @@
 import sys
+import os
 import pandas as pd
 from src.exception import CustomeException
-from src.utils import load_object
+from src.utils.filesManager import load_object
 
 
 class PredictPipeline:
@@ -28,37 +29,52 @@ class PredictPipeline:
 class CustomData:
     def __init__(  self,
         gender: str,
-        race_ethnicity: str,
-        parental_level_of_education,
-        lunch: str,
-        test_preparation_course: str,
-        reading_score: int,
-        writing_score: int):
+        age: int,
+        cgpa: float,
+        depression: int,
+        anxiety: int,
+        panic_attack: int,
+        specialist_treatment: int,
+        symptom_frequency_last7days: int,
+        has_mental_health_support: int,
+        sleep_quality: int,
+        study_stress_level: int,
+        study_hours_per_week: int,
+        academic_engagement: int):
 
         self.gender = gender
-
-        self.race_ethnicity = race_ethnicity
-
-        self.parental_level_of_education = parental_level_of_education
-
-        self.lunch = lunch
-
-        self.test_preparation_course = test_preparation_course
-
-        self.reading_score = reading_score
-
-        self.writing_score = writing_score
+        self.age = age
+        self.cgpa = cgpa
+        self.depression = depression
+        self.anxiety = anxiety
+        self.panic_attack = panic_attack
+        self.specialist_treatment = specialist_treatment
+        self.symptom_frequency_last7days = symptom_frequency_last7days
+        self.has_mental_health_support = has_mental_health_support
+        self.sleep_quality = sleep_quality
+        self.study_stress_level = study_stress_level
+        self.study_hours_per_week = study_hours_per_week
+        self.academic_engagement = academic_engagement
 
     def get_data_as_data_frame(self):
         try:
+            # Normalize categorical values to match training capitalization
+            gender_norm = str(self.gender).strip().title()
+
             custom_data_input_dict = {
-                "gender": [self.gender],
-                "race_ethnicity": [self.race_ethnicity],
-                "parental_level_of_education": [self.parental_level_of_education],
-                "lunch": [self.lunch],
-                "test_preparation_course": [self.test_preparation_course],
-                "reading_score": [self.reading_score],
-                "writing_score": [self.writing_score],
+                "Gender": [gender_norm],
+                "Age": [self.age],
+                "CGPA": [self.cgpa],
+                "Depression": [self.depression],
+                "Anxiety": [self.anxiety],
+                "PanicAttack": [self.panic_attack],
+                "SpecialistTreatment": [self.specialist_treatment],
+                "SymptomFrequency_Last7Days": [self.symptom_frequency_last7days],
+                "HasMentalHealthSupport": [self.has_mental_health_support],
+                "SleepQuality": [self.sleep_quality],
+                "StudyStressLevel": [self.study_stress_level],
+                "StudyHoursPerWeek": [self.study_hours_per_week],
+                "AcademicEngagement": [self.academic_engagement],
             }
 
             return pd.DataFrame(custom_data_input_dict)

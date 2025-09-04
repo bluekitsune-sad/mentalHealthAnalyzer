@@ -11,16 +11,19 @@ from sklearn.preprocessing import OneHotEncoder,StandardScaler
 from src.exception import CustomeException
 from src.logger import logging
 import os
+from src.utils.features import get_features
 
-from src.utils import save_object
+from src.utils.filesManager import save_object
 
 @dataclass
 class DataTransformationConfig:
-    preprocessor_obj_file_path=os.path.join('artifacts',"proprocessor.pkl")
+    preprocessor_obj_file_path=os.path.join('artifacts',"preprocessor.pkl")
 
 class DataTransformation:
     def __init__(self):
         self.data_transformation_config=DataTransformationConfig()
+        self.numerical_columns=[]
+        self.categorical_columns=[]
 
     def get_data_transformer_object(self):
         '''
@@ -28,14 +31,8 @@ class DataTransformation:
         
         '''
         try:
-            numerical_columns = ["writing_score", "reading_score"]
-            categorical_columns = [
-                "gender",
-                "race_ethnicity",
-                "parental_level_of_education",
-                "lunch",
-                "test_preparation_course",
-            ]
+            numerical_columns = self.numerical_columns
+            categorical_columns = self.categorical_columns
 
             num_pipeline= Pipeline(
                 steps=[
@@ -49,7 +46,7 @@ class DataTransformation:
 
                 steps=[
                 ("imputer",SimpleImputer(strategy="most_frequent")),
-                ("one_hot_encoder",OneHotEncoder()),
+                ("one_hot_encoder",OneHotEncoder(handle_unknown="ignore")),
                 ("scaler",StandardScaler(with_mean=False))
                 ]
 
@@ -83,10 +80,9 @@ class DataTransformation:
 
             logging.info("Obtaining preprocessing object")
 
+            target_column_name="IsCounselingNeeded"
+            self.numerical_columns, self.categorical_columns = get_features(train_df, target_column_name)
             preprocessing_obj=self.get_data_transformer_object()
-
-            target_column_name="math_score"
-            numerical_columns = ["writing_score", "reading_score"]
 
             input_feature_train_df=train_df.drop(columns=[target_column_name],axis=1)
             target_feature_train_df=train_df[target_column_name]
@@ -101,10 +97,27 @@ class DataTransformation:
             input_feature_train_arr=preprocessing_obj.fit_transform(input_feature_train_df)
             input_feature_test_arr=preprocessing_obj.transform(input_feature_test_df)
 
-            train_arr = np.c_[
-                input_feature_train_arr, np.array(target_feature_train_df)
-            ]
-            test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
+            # train_arr = np.c_[
+            #     input_feature_train_arr, np.array(target_feature_train_df)
+            # ]
+            # test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
+            
+######### fixing the shape issue
+            # Ensure dense arrays for safe concatenation
+            if hasattr(input_feature_train_arr, 'toarray'):
+                input_feature_train_arr = input_feature_train_arr.toarray()
+            if hasattr(input_feature_test_arr, 'toarray'):
+                input_feature_test_arr = input_feature_test_arr.toarray()
+
+            y_train = np.asarray(target_feature_train_df).reshape(-1, 1)
+            y_test = np.asarray(target_feature_test_df).reshape(-1, 1)
+
+            logging.info(f"X_train shape: {input_feature_train_arr.shape}, y_train shape: {y_train.shape}")
+            logging.info(f"X_test shape: {input_feature_test_arr.shape}, y_test shape: {y_test.shape}")
+
+            train_arr = np.hstack([input_feature_train_arr, y_train])
+            test_arr = np.hstack([input_feature_test_arr, y_test])
+###########
 
             logging.info(f"Saved preprocessing object.")
 

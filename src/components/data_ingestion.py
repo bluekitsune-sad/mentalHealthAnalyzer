@@ -13,6 +13,8 @@ from src.components.data_transformation import DataTransformationConfig
 from src.components.model_trainer import ModelTrainerConfig
 from src.components.model_trainer import ModelTrainer
 
+from src.utils.features import create_target_column
+
 @dataclass
 class DataIngestionConfig:
     train_data_path: str=os.path.join('artifacts',"train.csv")
@@ -26,15 +28,25 @@ class DataIngestion:
     def initiate_data_ingestion(self):
         logging.info("Entered the data ingestion method or component")
         try:
-            df=pd.read_csv('notebook\data\stud.csv')
+            # df=pd.read_csv('notebook\data\stud.csv')
+            df=pd.read_csv('notebook\data\mentalhealth_dataset.csv')
             logging.info('Read the dataset as dataframe')
+
+            df = create_target_column(df)
+
+            # Drop non-feature column prior to split
+            columns_to_drop = ['Timestamp',"Course","YearOfStudy"]
+            for column in columns_to_drop:
+                if column in df.columns:
+                    df = df.drop(columns=[column])
+                    logging.info(f'Dropped column: {column}')
 
             os.makedirs(os.path.dirname(self.ingestion_config.train_data_path),exist_ok=True)
 
             df.to_csv(self.ingestion_config.raw_data_path,index=False,header=True)
 
-            logging.info("Train test split initiated")
-            train_set,test_set=train_test_split(df,test_size=0.2,random_state=42)
+            logging.info("Train test split initiated with stratified sampling")
+            train_set,test_set=train_test_split(df,test_size=0.3,random_state=42,stratify=df['IsCounselingNeeded'])
 
             train_set.to_csv(self.ingestion_config.train_data_path,index=False,header=True)
 
