@@ -77,7 +77,7 @@ def test_prediction_pipeline():
             "name": "Low Risk",
             "data": {
                 "gender": "Female",
-                "age": 19,
+                "age": 18,
                 "cgpa": 3.8,
                 "depression": 0,
                 "anxiety": 0,

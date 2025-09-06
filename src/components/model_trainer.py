@@ -97,7 +97,7 @@ class ModelTrainer:
 
             if best_model_score<0.6:
                 raise CustomeException("No best model found with sufficient F1 score")
-            logging.info(f"Best classifier selected based on F1 score on test data")
+            logging.info(f"Best classifier selected based on F1 score on test data {best_model_name} with score {best_model_score}")
 
             save_object(
                 file_path=self.model_trainer_config.trained_model_file_path,
