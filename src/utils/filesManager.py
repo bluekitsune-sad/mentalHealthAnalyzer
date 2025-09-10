@@ -8,7 +8,6 @@ import dill
 import pickle
 from sklearn.metrics import f1_score, confusion_matrix
 from sklearn.model_selection import GridSearchCV, StratifiedKFold
-from sklearn.model_selection import GridSearchCV
 
 from src.exception import CustomeException
 
