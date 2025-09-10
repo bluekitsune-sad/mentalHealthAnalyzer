@@ -45,9 +45,9 @@ class DataTransformation:
             cat_pipeline=Pipeline(
 
                 steps=[
-                ("imputer",SimpleImputer(strategy="most_frequent")),
-                ("one_hot_encoder",OneHotEncoder(handle_unknown="ignore")),
-                ("scaler",StandardScaler(with_mean=False))
+                ("imputer",SimpleImputer(strategy="most_frequent")), # missing value imputation for categorical features
+                ("one_hot_encoder",OneHotEncoder(handle_unknown="ignore")), # handle unknown categories during transform
+                ("scaler",StandardScaler(with_mean=False)) # scale the data
                 ]
 
             )
