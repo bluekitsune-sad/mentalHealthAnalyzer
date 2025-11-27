@@ -159,4 +159,9 @@ Important: For deployment on many platforms, name your Flask entry file `applica
 <!-- IsCounselingNeeded
 1    0.997
 0    0.003
-Name: proportion, dtype: float64 -->
+Name: proportion, dtype: float64 
+need to normalatize the data
+
+
+-->
+
