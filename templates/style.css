@@ -1,126 +1,161 @@
-/* DO NOT CHANGE */
-@import "tailwindcss";
-@import "tw-animate-css";
-@custom-variant dark (&:is(.dark *));
+/* Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
 
-/* DO NOT CHANGE */
-@theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
-}
+      /* Background Gradient */
+      body {
+        background: linear-gradient(135deg, #111111, #333333);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #f5f5f5;
+        flex-direction: column;
+        padding: 20px;
+      }
 
-/* CHANGE VALUES FOR THEME */
-:root {
-  --radius: 0.75rem;
-  --background: oklch(0.1 0 0); /* #1a1a1a equivalent but slightly lighter for light mode fallback if needed, but we focus on dark */
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.1 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.1 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.6 0.18 150); /* Neon Greenish */
-  --primary-foreground: oklch(0.1 0 0);
-  --secondary: oklch(0.2 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.2 0 0);
-  --muted-foreground: oklch(0.7 0 0);
-  --accent: oklch(0.2 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.6 0.2 20);
-  --border: oklch(0.2 0 0);
-  --input: oklch(0.2 0 0);
-  --ring: oklch(0.6 0.18 150);
-  --chart-1: oklch(0.6 0.18 150);
-  --chart-2: oklch(0.6 0.2 330); /* Neon Pink */
-  --chart-3: oklch(0.6 0.2 250); /* Neon Blue */
-  --chart-4: oklch(0.8 0.15 80);
-  --chart-5: oklch(0.7 0.15 50);
-  --sidebar: oklch(0.1 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.6 0.18 150);
-  --sidebar-primary-foreground: oklch(0.1 0 0);
-  --sidebar-accent: oklch(0.2 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.2 0 0);
-  --sidebar-ring: oklch(0.6 0.18 150);
-}
+      /* Top Bar */
+      .top-bar {
+        width: 100%;
+        height: 50px;
+        background-color: #333333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        font-weight: bold;
+        font-size: 18px;
+        position: absolute;
+        top: 0;
+      }
 
-.dark {
-  --background: oklch(0.05 0 0); /* #0a0a0a */
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.08 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.08 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.7 0.2 150); /* Neon Green #00ff88 approx */
-  --primary-foreground: oklch(0.05 0 0);
-  --secondary: oklch(0.15 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.15 0 0);
-  --muted-foreground: oklch(0.6 0 0);
-  --accent: oklch(0.15 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.6 0.25 25);
-  --border: oklch(0.2 0 0);
-  --input: oklch(0.2 0 0);
-  --ring: oklch(0.7 0.2 150);
-  --chart-1: oklch(0.7 0.2 150); /* Green */
-  --chart-2: oklch(0.65 0.25 330); /* Pink #ff0080 */
-  --chart-3: oklch(0.6 0.2 260); /* Blue #0088ff */
-  --chart-4: oklch(0.8 0.2 90);
-  --chart-5: oklch(0.7 0.2 40);
-  --sidebar: oklch(0.05 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.7 0.2 150);
-  --sidebar-primary-foreground: oklch(0.05 0 0);
-  --sidebar-accent: oklch(0.15 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.2 0 0);
-  --sidebar-ring: oklch(0.7 0.2 150);
-}
+      /* Main Container */
+      .main-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin-top: 100px;
+      }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-  button:not([disabled]),
-  [role="button"]:not([disabled]) {
-    cursor: pointer;
-  }
-}
+      /* Title */
+      h1 {
+        font-size: 48px;
+        background: linear-gradient(90deg, #00ff88, #0088ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 20px;
+      }
+
+      /* Description */
+      p {
+        font-size: 20px;
+        color: #f5f5f5;
+        margin-bottom: 40px;
+        max-width: 500px;
+      }
+
+      /* Buttons */
+      .btn {
+        padding: 14px 30px;
+        font-size: 16px;
+        margin: 10px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        background: #00ff88;
+/*background: linear-gradient(135deg, #00ff88, #0088ff);*/
+                
+color: #111;
+        text-transform: uppercase;
+      }
+
+      .btn:hover {
+        background: linear-gradient(135deg, #00ff88, #ff0080);
+        transform: translateY(-3px);
+        box-shadow: 0px 6px 15px rgba(0, 255, 136, 0.3);
+      }
+
+      .btn.disabled {
+        background: #444;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+
+      /* Modal - Popup Form */
+      .modal {
+        display: none; /* Hidden by default */
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+        padding-top: 60px;
+      }
+
+      /* Modal Content */
+      .modal-content {
+        background-color: #222;
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 650px;
+        border-radius: 10px;
+        box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.3);
+      }
+
+      .modal-header {
+        font-size: 24px;
+        color: #f5f5f5;
+        margin-bottom: 10px;
+      }
+
+      /* Close Button */
+      .close {
+        color: #f5f5f5;
+        font-size: 30px;
+        font-weight: bold;
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        cursor: pointer;
+      }
+
+      /* Form Styling Inside Modal */
+      .form-label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 6px;
+        color: #f5f5f5;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid #444;
+        border-radius: 10px;
+        font-size: 15px;
+        background: #333;
+        color: #f5f5f5;
+        transition: all 0.3s ease;
+        margin-bottom: 15px;
+      }
+
+      .form-control:focus {
+        border-color: #00ff88;
+        box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        outline: none;
+        transform: scale(1.02);
+      }
